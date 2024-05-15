@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            background-color: #f2f2f2; /* Set the background color for the page */
+        }
+
+        header {
+            background-color: rgb(36, 28, 127);
+            color: white;
+            font-weight: 500;
+            font-size: 40px; /* Decreased font size for better readability on mobile */
+            text-align: center; /* Center align header text */
+            padding: 20px; /* Increased padding for better spacing */
+        }
+
+        .menu {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap; /* Allow items to wrap */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+        }
+
+        ul li {
+            list-style: none;
+            margin: 10px; /* Adjust margin for better spacing */
+            font-size: 24px; /* Decreased font size for better readability on mobile */
+            cursor: pointer;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #000000;
+            font-family: Arial;
+            font-weight: bold;
+            transition: 0.4s ease-in-out;
+        }
+
+        ul li a:hover {
+            color: #000000;
+        }
+        .active {
+            color: #ffffff; /* Change color of active link */
+            background-color: rgb(36, 28, 127); /* Add background color for active link */
+            border-radius: 5px; /* Add border radius for better appearance */
+            padding: 5px 10px; /* Add padding for better appearance */
+        }
+        /* Custom styling for video containers */
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            max-width: 1000px; /* Set maximum width */
+            margin-left: auto; /* Center the container */
+            margin-right: auto; /* Center the container */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            padding: 20px; /* Add padding for better spacing */
+            border-radius: 8px; /* Add border radius for rounded corners */
+            background-color: white; /* Set background color for the video container */
+        }
+
+        .video-title {
+            position: relative; /* Positioning context for play icon */
+            overflow: hidden; /* Hide overflowing play icon */
+            margin: 10px; /* Add margin to create space between video titles */
+            width: calc(33.33% - 20px); /* Adjust width to fit three titles in a row with spacing */
+        }
+
+        .title-text {
+            display: block; /* Ensure the title takes full width */
+            padding: 20px; /* Increase padding for better spacing */
+            background-color: rgba(30, 25, 125, 0.7); /* Semi-transparent background */
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Add transition effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            font-size: 18px; /* Adjust font size */
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px; /* Adjust right positioning */
+            transform: translateY(-50%); /* Center the play icon vertically */
+            color: #ffffff; /* Play icon color */
+            font-size: 24px; /* Play icon size */
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.3s; /* Add transition effect */
+        }
+
+        .video-title:hover .play-icon {
+            opacity: 1; /* Show play icon on hover */
+        }
+
+        .video-title:hover {
+            background-color: rgb(36, 28, 127); /* Darken background on hover */
+        }
+
+        .video-container video {
+            width: 80%; /* Make videos fill the container width */
+            border-radius: 8px;
+            cursor: pointer;
+            display: none; /* Hide videos initially */
+        }
+
+        /* Media query for smaller screens */
+        @media only screen and (max-width: 600px) {
+            .video-title {
+                width: 100%; /* Set full width for video titles on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Hypertension associated SNPs Database (BPSNPs)
+    </header>
+    <div class="menu">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="About HTN.html">About HTN</a></li>
+            <li><a href="Guidelines for HTN.html">Guidelines for HTN</a></li>
+            <li><a href="kegg.html">KEGG Pathway</a></li>
+            <li><a href="Molecular Mechanism.html"class="active">Molecular Mechanism</a></li>
+            <!-- <li><a href="Risk Assessment.html">Risk Assessment</a></li> -->
+            <li><a href="genepage.html">Risk Estimation</a></li>
+            <li><a href="Literature.html">Literature</a></li>
+            <li><a href="Contact Us.html">Contact Us</a></li>
+        </ul>
+    </div>
+    <div class="video-container">
+        <div class="video-title" onclick="playVideo('video1')">
+            <span class="title-text">RASS Pathway</span>
+            <!-- <span class="play-icon">&#9658;</span> Play icon -->
+        </div>
+        <div class="video-title" onclick="playVideo('video2')">
+            <span class="title-text">Bradykinin pathway</span>
+            <!-- <span class="play-icon">&#9658;</span> Play icon -->
+        </div>
+        <div class="video-title" onclick="playVideo('video3')">
+            <span class="title-text">Endothelin system</span>
+            <!-- <span class="play-icon">&#9658;</span> Play icon -->
+        </div>
+        <video id="video1" src="videos/RASS Pathway.mp4" preload="metadata" onclick="pauseOthers('video1')">video1</video>
+        <video id="video2" src="videos/Bradykinin pathway.mp4" preload="metadata" onclick="pauseOthers('video2')">video2</video>
+        <video id="video3" src="videos/Endothelin system.mp4" preload="metadata" onclick="pauseOthers('video3')">video3</video>
+    </div>
+
+    <script>
+        var currentVideo = null; // To store the currently playing video element
+
+        // Function to play the clicked video and pause others
+        function playVideo(videoId) {
+            var video = document.getElementById(videoId);
+            if (currentVideo !== video) { // If a different video is clicked
+                pauseCurrentVideo(); // Pause the currently playing video
+                video.style.display = 'block'; // Show the clicked video
+                video.play(); // Play the clicked video
+                currentVideo = video; // Set the currently playing video
+            }
+        }
+
+        // Function to pause the currently playing video
+        function pauseCurrentVideo() {
+            if (currentVideo !== null && !currentVideo.paused) {
+                currentVideo.pause();
+                currentVideo.style.display = 'none'; // Hide the currently playing video
+            }
+        }
+
+        // Function to pause other videos when one is played
+        function pauseOthers(videoId) {
+            var videos = document.querySelectorAll('.video-container video');
+            videos.forEach(function (video) {
+                if (video.id !== videoId && !video.paused) {
+                    video.pause();
+                    video.style.display = 'none'; // Hide the paused video
+                }
+            });
+        }
+    </script>
+</body>
+</html>
